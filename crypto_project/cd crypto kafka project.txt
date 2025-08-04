@@ -1,0 +1,2 @@
+cd ~/crypto-kafka-project/spring-consumer/kafkaconsumer
+

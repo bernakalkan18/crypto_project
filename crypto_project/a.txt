@@ -1,0 +1,41 @@
+411  nano KafkaMessageListener.java
+  412  cd ~/crypto-kafka-project/spring-consumer/kafkaconsumer/
+  413  ./mvnw spring-boot:run
+  414  cd ~/crypto-kafka-project
+  415  nano send_data.py
+  416  pip install kafka-python
+  417  source ~/venv/bin/activate
+  418  pip install kafka-python
+  419  sudo docker ps
+  420  python send_data.py
+  421  cd ~/crypto-kafka-project/spring-consumer/kafkaconsumer/
+  422  ./mvnw spring-boot:run
+  423  cd ~/crypto-kafka-project
+  424  source ~/venv/bin/activate
+  425  python send_data.py
+  426  gsettings set org.gnome.system.proxy mode 'none'
+  427  sudo nano /etc/resolv.conf
+  428  env | grep -i proxy
+  429  sudo ufw disable
+  430  curl -v https://www.cryptocompare.com
+  431  sudo nano /etc/resolv.conf
+  432  ping www.cryptocompare.com
+  433  pip install cryptocompare
+  434  cd ~/crypto-kafka-project
+  435  python3 -m venv venv
+  436  source venv/bin/activate
+  437  pip install cryptocompare streamlit plotly pandas
+  438  pip install streamlit cryptocompare pandas plotly
+  439  streamlit run app.py
+  440  nano app.py
+  441  streamlit run app.py
+  442  nano app.py
+  443  streamlit run app.py
+  444  nano app.py
+  445  streamlit run app.py
+  446  nano app.py
+  447  streamlit run app.py
+  448  history
+(venv) berna@berna-Lenovo-ideapad-330-15ICH:~/crypto-kafka-project$ 
+
+

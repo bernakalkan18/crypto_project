@@ -1,0 +1,82 @@
+terminal1
+cd ~/crypto-kafka-project         python scriptinin klasörü
+
+source venv/bin/activate          sanal ortam
+
+python send_data.py               veri gönderen scripti çalıştırma
+
+sending datalar geldi python kafkaya mesajı yolladı kafka aldı
+
+-----------------------------
+
+terminal2 springboot çalıştır kafkadan veri al
+
+cd ~/crypto-kafka-project/spring-consumer/kafkaconsumer klasöre git
+
+./mvnw spring-boot:run                                  java17
+
+
+------------------------------------------------
+python-> sahte veriyi kafkaya gönderdim
+kafka-> crypto topic içinde veriler tutuldu
+springbootconsumer-> kafkadan gelen mesajları dinliyor ve terminalde alınanları yazıyo
+
+Pythonla sahte veri çektim
+Bu verileri Kafka'ya gönderen bir producer yazdırıdm
+Kafka için gerekli Docker ortamını kurdum (zookeeper + kafka broker)
+Spring Boot ile bir consumer uygulaması geliştirdim
+Kafka topic’inden gelen verileri Spring le aldım
+--------------------------------------------------
+# send_data.py (Python Kafka sending data kodu)
+import time
+import json
+from kafka import KafkaProducer
+import requests
+
+producer = KafkaProducer(
+    bootstrap_servers='localhost:9092',
+    value_serializer=lambda v: json.dumps(v).encode('utf-8')
+)
+
+def get_price():
+    url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+    response = requests.get(url)
+    return response.json()
+
+while True:
+    data = get_price()
+    print(f"Sending data: {data}")
+    producer.send('bitcoin-topic', value=data)
+    producer.flush()
+    time.sleep(5)
+********************************************
+// KafkaconsumerApplication.java (Spring Boot main class)
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class KafkaconsumerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(KafkaconsumerApplication.class, args);
+    }
+}
+*************************************************
+// KafkaMessageListener.java (Spring Boot Kafka Listener)
+package com.example.demo;
+
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class KafkaMessageListener {
+
+    @KafkaListener(topics = "bitcoin-topic", groupId = "group_id")
+    public void listen(String message) {
+        System.out.println("Received message: " + message);
+    }
+}
+***************************************************
+
